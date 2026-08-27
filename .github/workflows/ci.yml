@@ -37,3 +37,19 @@ jobs:
         with:
           name: reporte-cucumber
           path: pruebas-java/target/cucumber-report.html
+
+      - name: Instalar k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Ejecutar prueba de performance
+        if: always()
+        run: |
+          mkdir -p performance/results
+          k6 run --summary-export=performance/results/k6-summary.json performance/login-performance.js
+
+      - name: Publicar resultados de performance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-performance
+          path: performance/results/k6-summary.json
