@@ -30,3 +30,10 @@ jobs:
         with:
           name: reporte-tests
           path: pruebas-java/target/surefire-reports/
+
+      - name: Publicar reporte Cucumber
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-cucumber
+          path: pruebas-java/target/cucumber-report.html
